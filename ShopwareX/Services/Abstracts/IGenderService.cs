@@ -6,7 +6,7 @@ namespace ShopwareX.Services.Abstracts
     {
         Task<Gender> AddAsync(Gender gender);
         Task<Gender?> GetByIdAsync(long id);
-        IQueryable<Gender> GetAll();
+        Task<IEnumerable<Gender>> GetAllAsync();
         Task<Gender?> UpdateAsync(long id, Gender gender);
         Task<Gender?> DeleteAsync(long id);
     }

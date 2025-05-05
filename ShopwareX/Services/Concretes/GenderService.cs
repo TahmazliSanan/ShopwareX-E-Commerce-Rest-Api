@@ -1,4 +1,5 @@
-﻿using ShopwareX.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ShopwareX.Entities;
 using ShopwareX.Repositories.Abstracts;
 using ShopwareX.Services.Abstracts;
 
@@ -22,7 +23,7 @@ namespace ShopwareX.Services.Concretes
             return existGender;
         }
 
-        public IQueryable<Gender> GetAll() => _genderRepository.GetAll();
+        public async Task<IEnumerable<Gender>> GetAllAsync() => await _genderRepository.GetAll().ToListAsync();
 
         public async Task<Gender?> GetByIdAsync(long id) => await _genderRepository.GetByIdAsync(id);
 
