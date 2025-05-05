@@ -1,5 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using ShopwareX.DataContext;
+using ShopwareX.Mapper;
+using ShopwareX.Repositories.Abstracts;
+using ShopwareX.Repositories.Concretes;
+using ShopwareX.Services.Abstracts;
+using ShopwareX.Services.Concretes;
 
 namespace ShopwareX
 {
@@ -12,10 +17,16 @@ namespace ShopwareX
 
             // Add services to the container.
             builder.Services.AddControllers();
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             builder.Services.AddDbContext<AppDbContext>(options 
                 => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<IGenderRepository, GenderRepository>();
             
+            builder.Services.AddScoped<IGenderService, GenderService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
