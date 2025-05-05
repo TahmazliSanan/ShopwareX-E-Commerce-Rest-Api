@@ -20,6 +20,7 @@ namespace ShopwareX.Services.Concretes
         {
             var existGender = await _genderRepository.GetByIdAsync(id);
             await _genderRepository.DeleteAsync(id);
+            await _genderRepository.SaveAsync();
             return existGender;
         }
 
@@ -30,16 +31,16 @@ namespace ShopwareX.Services.Concretes
         public async Task<Gender?> UpdateAsync(long id, Gender gender)
         {
             var existGender = await _genderRepository
-                .GetByIdAsync(id)
-                ?? throw new Exception("Gender not found");
-            
-            var newGender = new Gender
-            {
-                Name = existGender.Name
-            };
+                .GetByIdAsync(id);
 
-            await _genderRepository.UpdateAsync(newGender);
-            await _genderRepository.SaveAsync();
+            if (existGender is not null)
+            {
+                existGender.Name = gender.Name;
+
+                await _genderRepository.UpdateAsync(existGender);
+                await _genderRepository.SaveAsync();
+            }
+            
             return existGender;
         }
     }
