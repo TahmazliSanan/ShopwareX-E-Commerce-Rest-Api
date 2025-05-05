@@ -34,7 +34,8 @@ namespace ShopwareX.Repositories.Concretes
             }
         }
 
-        public IQueryable<TEntity> GetAll() => _set.AsQueryable();
+        public IQueryable<TEntity> GetAll() 
+            => _set.Where(e => e.IsDeleted == false).AsQueryable();
 
         public async Task<TEntity?> GetByIdAsync(long id)
             => await _set.FirstOrDefaultAsync(e => e.Id == id && e.IsDeleted == false);
