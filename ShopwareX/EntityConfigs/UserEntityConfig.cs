@@ -40,14 +40,14 @@ namespace ShopwareX.EntityConfigs
 
             builder
                 .Property(u => u.Email)
-                .HasColumnType("varchar")
                 .HasColumnName("email")
+                .HasMaxLength(255)
                 .IsRequired();
 
             builder
                 .Property(u => u.HashedPassword)
-                .HasColumnType("varchar")
                 .HasColumnName("hashed_password")
+                .HasMaxLength(255)
                 .IsRequired();
 
             builder
