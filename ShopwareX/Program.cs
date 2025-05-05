@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using ShopwareX.DataContext;
 
 namespace ShopwareX
 {
@@ -6,10 +8,14 @@ namespace ShopwareX
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("MySqlDbConnection");
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+
+            builder.Services.AddDbContext<AppDbContext>(options 
+                => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -24,10 +30,8 @@ namespace ShopwareX
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
+            
             app.MapControllers();
 
             app.Run();
