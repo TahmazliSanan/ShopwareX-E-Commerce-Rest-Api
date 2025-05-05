@@ -9,6 +9,7 @@ namespace ShopwareX.Mapper
         public MappingProfile()
         {
             CreateMap<GenderCreateDto, Gender>();
+            CreateMap<GenderUpdateDto, Gender>();
             CreateMap<Gender, GenderResponseDto>();
         }
     }
