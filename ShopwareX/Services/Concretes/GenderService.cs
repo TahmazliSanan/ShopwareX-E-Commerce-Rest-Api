@@ -45,6 +45,14 @@ namespace ShopwareX.Services.Concretes
         public async Task<Gender?> GetGenderByIdAsync(long id)
             => await _genderRepository.GetByIdAsync(id);
 
+        public async Task<Gender?> GetGenderByNameAsync(string name, long? id = null)
+        {
+            if (id is not null)
+                return await _genderRepository.GetGenderByNameAsync(name, id);
+
+            return await _genderRepository.GetGenderByNameAsync(name);
+        }
+
         public async Task<Gender?> GetGenderWithUsersAsync(long id)
             => await _genderRepository.GetGenderWithUsersAsync(id);
 
@@ -59,7 +67,7 @@ namespace ShopwareX.Services.Concretes
                 await _genderRepository.UpdateAsync(existGender);
                 await _genderRepository.SaveAsync();
             }
-            
+
             return existGender;
         }
     }

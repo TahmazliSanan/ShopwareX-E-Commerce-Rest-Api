@@ -6,6 +6,7 @@ namespace ShopwareX.Services.Abstracts
     {
         Task<Gender> AddGenderAsync(Gender gender);
         Task<Gender?> GetGenderByIdAsync(long id);
+        Task<Gender?> GetGenderByNameAsync(string name, long? id = null);
         Task<Gender?> GetGenderWithUsersAsync(long id);
         Task<IEnumerable<Gender>> GetAllGendersAsync();
         Task<Gender?> UpdateGenderAsync(long id, Gender gender);
