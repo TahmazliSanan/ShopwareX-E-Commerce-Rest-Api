@@ -24,8 +24,10 @@ namespace ShopwareX
 
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IGenderRepository, GenderRepository>();
-            
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+
             builder.Services.AddScoped<IGenderService, GenderService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
