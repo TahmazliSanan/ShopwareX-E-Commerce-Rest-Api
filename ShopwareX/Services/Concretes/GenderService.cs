@@ -18,7 +18,7 @@ namespace ShopwareX.Services.Concretes
 
         public async Task<Gender?> DeleteGenderByIdAsync(long id)
         {
-            var existGender = await _genderRepository.GetByIdAsync(id);
+            var existGender = await GetGenderWithUsersAsync(id);
 
             if (existGender is not null)
             {
@@ -42,6 +42,11 @@ namespace ShopwareX.Services.Concretes
         public async Task<IEnumerable<Gender>> GetAllGendersAsync() => await _genderRepository.GetAll().ToListAsync();
 
         public async Task<Gender?> GetGenderByIdAsync(long id) => await _genderRepository.GetByIdAsync(id);
+
+        public async Task<Gender?> GetGenderWithUsersAsync(long id)
+        {
+            return await _genderRepository.GetGenderWithUsersAsync(id);
+        }
 
         public async Task<Gender?> UpdateGenderAsync(long id, Gender gender)
         {

@@ -1,11 +1,20 @@
-﻿using ShopwareX.DataContext;
+﻿using Microsoft.EntityFrameworkCore;
+using ShopwareX.DataContext;
 using ShopwareX.Entities;
 using ShopwareX.Repositories.Abstracts;
 
 namespace ShopwareX.Repositories.Concretes
 {
-    public class GenderRepository(AppDbContext context) 
+    public class GenderRepository(AppDbContext context)
         : GenericRepository<Gender>(context), IGenderRepository
     {
+        private readonly DbSet<Gender> _genders = context.Set<Gender>();
+
+        public async Task<Gender?> GetGenderWithUsersAsync(long id)
+        {
+            return await _genders
+                .Include(g => g.Users)
+                .FirstOrDefaultAsync(g => g.Id == id && g.IsDeleted == false);
+        }
     }
 }
