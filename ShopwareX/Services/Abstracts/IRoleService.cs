@@ -6,6 +6,7 @@ namespace ShopwareX.Services.Abstracts
     {
         Task<Role> AddRoleAsync(Role role);
         Task<Role?> GetRoleByIdAsync(long id);
+        Task<Role?> GetRoleByNameAsync(string name, long? id = null);
         Task<Role?> GetRoleWithUsersAsync(long id);
         Task<IEnumerable<Role>> GetAllRolesAsync();
         Task<Role?> UpdateRoleAsync(long id, Role role);

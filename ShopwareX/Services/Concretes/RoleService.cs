@@ -45,6 +45,14 @@ namespace ShopwareX.Services.Concretes
         public async Task<Role?> GetRoleByIdAsync(long id)
             => await _roleRepository.GetByIdAsync(id);
 
+        public async Task<Role?> GetRoleByNameAsync(string name, long? id = null)
+        {
+            if (id is not null)
+                return await _roleRepository.GetRoleByNameAsync(name, id);
+
+            return await _roleRepository.GetRoleByNameAsync(name);
+        }
+
         public async Task<Role?> GetRoleWithUsersAsync(long id)
             => await _roleRepository.GetRoleWithUsersAsync(id);
 
