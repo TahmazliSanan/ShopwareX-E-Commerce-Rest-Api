@@ -24,16 +24,18 @@ namespace ShopwareX.Services.Concretes
 
             if (existGender is not null)
             {
-                await _genderRepository.DeleteByIdAsync(id);
+                existGender.IsDeleted = true;
+                existGender.UpdatedAt = DateTime.Now;
 
                 existGender.Users
                     .ToList()
-                    .ForEach(async u =>
+                    .ForEach(u =>
                     {
-                        await _userRepository.DeleteByIdAsync(u.Id);
-                        await _userRepository.SaveAsync();
+                        u.IsDeleted = true;
+                        u.UpdatedAt = DateTime.Now;
                     });
 
+                await _userRepository.SaveAsync();
                 await _genderRepository.SaveAsync();
             }
 

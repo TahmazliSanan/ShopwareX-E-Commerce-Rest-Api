@@ -24,16 +24,18 @@ namespace ShopwareX.Services.Concretes
 
             if (existRole is not null)
             {
-                await _roleRepository.DeleteByIdAsync(id);
+                existRole.IsDeleted = true;
+                existRole.UpdatedAt = DateTime.Now;
 
                 existRole.Users
                     .ToList()
-                    .ForEach(async u =>
+                    .ForEach(u =>
                     {
-                        await _userRepository.DeleteByIdAsync(u.Id);
-                        await _userRepository.SaveAsync();
+                        u.IsDeleted = true;
+                        u.UpdatedAt = DateTime.Now;
                     });
 
+                await _userRepository.SaveAsync();
                 await _roleRepository.SaveAsync();
             }
 
