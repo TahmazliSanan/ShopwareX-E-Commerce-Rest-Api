@@ -18,11 +18,25 @@ namespace ShopwareX.Controllers
         public async Task<ActionResult<ApiResponse<GenderResponseDto>>>
             AddGenderAsync([FromBody] GenderCreateDto dto)
         {
+            var existGenderByName = await _genderService.GetGenderByNameAsync(dto.Name);
+            ApiResponse<GenderResponseDto> apiResponse;
+
+            if (existGenderByName is not null)
+            {
+                apiResponse = new ApiResponse<GenderResponseDto>
+                {
+                    Message = "Gender already exists",
+                    Response = null
+                };
+
+                return Conflict(apiResponse);
+            }
+
             var gender = _mapper.Map<Gender>(dto);
             var newGender = await _genderService.AddGenderAsync(gender);
             var genderResponseDto = _mapper.Map<GenderResponseDto>(newGender);
 
-            var apiResponse = new ApiResponse<GenderResponseDto>
+            apiResponse = new ApiResponse<GenderResponseDto>
             {
                 Message = "Gender was created successfully",
                 Response = genderResponseDto
@@ -80,6 +94,8 @@ namespace ShopwareX.Controllers
             UpdateGenderAsync([FromRoute] long id, [FromBody] GenderUpdateDto dto)
         {
             var existGender = await _genderService.GetGenderByIdAsync(id);
+            var existAnotherGenderByName = await _genderService.GetGenderByNameAsync(dto.Name, id);
+
             ApiResponse<GenderResponseDto> apiResponse;
 
             if (existGender is null)
@@ -91,6 +107,17 @@ namespace ShopwareX.Controllers
                 };
 
                 return NotFound(apiResponse);
+            }
+
+            if (existAnotherGenderByName is not null)
+            {
+                apiResponse = new ApiResponse<GenderResponseDto>
+                {
+                    Message = "Gender already exists",
+                    Response = null
+                };
+
+                return Conflict(apiResponse);
             }
 
             var gender = _mapper.Map<Gender>(dto);
