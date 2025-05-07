@@ -18,11 +18,25 @@ namespace ShopwareX.Controllers
         public async Task<ActionResult<ApiResponse<RoleResponseDto>>>
             AddRoleAsync([FromBody] RoleCreateDto dto)
         {
+            var existRoleByName = await _roleService.GetRoleByNameAsync(dto.Name);
+            ApiResponse<RoleResponseDto> apiResponse;
+
+            if (existRoleByName is not null)
+            {
+                apiResponse = new ApiResponse<RoleResponseDto>
+                {
+                    Message = "Role already exists",
+                    Response = null
+                };
+
+                return Conflict(apiResponse);
+            }
+
             var role = _mapper.Map<Role>(dto);
             var newRole = await _roleService.AddRoleAsync(role);
             var roleResponseDto = _mapper.Map<RoleResponseDto>(newRole);
 
-            var apiResponse = new ApiResponse<RoleResponseDto>
+            apiResponse = new ApiResponse<RoleResponseDto>
             {
                 Message = "Role was created successfully",
                 Response = roleResponseDto
@@ -80,6 +94,8 @@ namespace ShopwareX.Controllers
             UpdateRoleAsync([FromRoute] long id, [FromBody] RoleUpdateDto dto)
         {
             var existRole = await _roleService.GetRoleByIdAsync(id);
+            var existAnotherRoleByName = await _roleService.GetRoleByNameAsync(dto.Name, id);
+
             ApiResponse<RoleResponseDto> apiResponse;
 
             if (existRole is null)
@@ -91,6 +107,17 @@ namespace ShopwareX.Controllers
                 };
 
                 return NotFound(apiResponse);
+            }
+
+            if (existAnotherRoleByName is not null)
+            {
+                apiResponse = new ApiResponse<RoleResponseDto>
+                {
+                    Message = "Role already exists",
+                    Response = null
+                };
+
+                return Conflict(apiResponse);
             }
 
             var role = _mapper.Map<Role>(dto);
