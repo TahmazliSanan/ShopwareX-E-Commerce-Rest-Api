@@ -39,19 +39,18 @@ namespace ShopwareX.Services.Concretes
             return existGender;
         }
 
-        public async Task<IEnumerable<Gender>> GetAllGendersAsync() => await _genderRepository.GetAll().ToListAsync();
+        public async Task<IEnumerable<Gender>> GetAllGendersAsync()
+            => await _genderRepository.GetAll().ToListAsync();
 
-        public async Task<Gender?> GetGenderByIdAsync(long id) => await _genderRepository.GetByIdAsync(id);
+        public async Task<Gender?> GetGenderByIdAsync(long id)
+            => await _genderRepository.GetByIdAsync(id);
 
         public async Task<Gender?> GetGenderWithUsersAsync(long id)
-        {
-            return await _genderRepository.GetGenderWithUsersAsync(id);
-        }
+            => await _genderRepository.GetGenderWithUsersAsync(id);
 
         public async Task<Gender?> UpdateGenderAsync(long id, Gender gender)
         {
-            var existGender = await _genderRepository
-                .GetByIdAsync(id);
+            var existGender = await GetGenderByIdAsync(id);
 
             if (existGender is not null)
             {

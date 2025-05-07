@@ -40,7 +40,8 @@ namespace ShopwareX.Repositories.Concretes
         public async Task<TEntity?> GetByIdAsync(long id)
             => await _set.FirstOrDefaultAsync(e => e.Id == id && e.IsDeleted == false);
 
-        public async Task SaveAsync() => await _context.SaveChangesAsync();
+        public async Task SaveAsync()
+            => await _context.SaveChangesAsync();
 
         public Task UpdateAsync(TEntity entity)
         {

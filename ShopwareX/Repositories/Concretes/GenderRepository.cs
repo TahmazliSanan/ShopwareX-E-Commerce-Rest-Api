@@ -10,11 +10,9 @@ namespace ShopwareX.Repositories.Concretes
     {
         private readonly DbSet<Gender> _genders = context.Set<Gender>();
 
-        public async Task<Gender?> GetGenderWithUsersAsync(long id)
-        {
-            return await _genders
+        public async Task<Gender?> GetGenderWithUsersAsync(long id) =>
+            await _genders
                 .Include(g => g.Users)
                 .FirstOrDefaultAsync(g => g.Id == id && g.IsDeleted == false);
-        }
     }
 }
