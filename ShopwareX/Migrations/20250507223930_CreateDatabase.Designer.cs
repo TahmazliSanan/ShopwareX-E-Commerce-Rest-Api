@@ -12,8 +12,8 @@ using ShopwareX.DataContext;
 namespace ShopwareX.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250505134354_CreateInitialVersionOfDatabase")]
-    partial class CreateInitialVersionOfDatabase
+    [Migration("20250507223930_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
