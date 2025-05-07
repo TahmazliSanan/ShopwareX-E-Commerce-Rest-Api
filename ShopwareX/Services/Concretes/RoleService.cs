@@ -5,9 +5,11 @@ using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Services.Concretes
 {
-    public class RoleService(IRoleRepository roleRepository) : IRoleService
+    public class RoleService(IRoleRepository roleRepository, IUserRepository userRepository) 
+        : IRoleService
     {
         private readonly IRoleRepository _roleRepository = roleRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<Role> AddRoleAsync(Role role)
         {
@@ -22,15 +24,14 @@ namespace ShopwareX.Services.Concretes
 
             if (existRole is not null)
             {
-                existRole.IsDeleted = true;
-                existRole.UpdatedAt = DateTime.UtcNow;
+                await _roleRepository.DeleteByIdAsync(id);
 
                 existRole.Users
                     .ToList()
-                    .ForEach(u =>
+                    .ForEach(async u =>
                     {
-                        u.IsDeleted = true;
-                        u.UpdatedAt = DateTime.Now;
+                        await _userRepository.DeleteByIdAsync(u.Id);
+                        await _userRepository.SaveAsync();
                     });
 
                 await _roleRepository.SaveAsync();

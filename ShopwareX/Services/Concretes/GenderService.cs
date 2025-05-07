@@ -5,9 +5,11 @@ using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Services.Concretes
 {
-    public class GenderService(IGenderRepository genderRepository) : IGenderService
+    public class GenderService(IGenderRepository genderRepository, IUserRepository userRepository) 
+        : IGenderService
     {
         private readonly IGenderRepository _genderRepository = genderRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<Gender> AddGenderAsync(Gender gender)
         {
@@ -22,15 +24,14 @@ namespace ShopwareX.Services.Concretes
 
             if (existGender is not null)
             {
-                existGender.IsDeleted = true;
-                existGender.UpdatedAt = DateTime.UtcNow;
+                await _genderRepository.DeleteByIdAsync(id);
 
                 existGender.Users
                     .ToList()
-                    .ForEach(u =>
+                    .ForEach(async u =>
                     {
-                        u.IsDeleted = true;
-                        u.UpdatedAt = DateTime.Now;
+                        await _userRepository.DeleteByIdAsync(u.Id);
+                        await _userRepository.SaveAsync();
                     });
 
                 await _genderRepository.SaveAsync();
