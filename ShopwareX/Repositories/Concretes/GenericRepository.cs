@@ -22,7 +22,7 @@ namespace ShopwareX.Repositories.Concretes
             await _set.AddAsync(entity);
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteByIdAsync(long id)
         {
             var existEntity = await _set
                 .FirstOrDefaultAsync(e => e.Id == id && e.IsDeleted == false);

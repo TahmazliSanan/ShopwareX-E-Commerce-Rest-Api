@@ -4,10 +4,10 @@ namespace ShopwareX.Services.Abstracts
 {
     public interface IGenderService
     {
-        Task<Gender> AddAsync(Gender gender);
-        Task<Gender?> GetByIdAsync(long id);
-        Task<IEnumerable<Gender>> GetAllAsync();
-        Task<Gender?> UpdateAsync(long id, Gender gender);
-        Task<Gender?> DeleteAsync(long id);
+        Task<Gender> AddGenderAsync(Gender gender);
+        Task<Gender?> GetGenderByIdAsync(long id);
+        Task<IEnumerable<Gender>> GetAllGendersAsync();
+        Task<Gender?> UpdateGenderAsync(long id, Gender gender);
+        Task<Gender?> DeleteGenderByIdAsync(long id);
     }
 }

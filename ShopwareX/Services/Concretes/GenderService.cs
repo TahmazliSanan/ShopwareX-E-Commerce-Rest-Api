@@ -9,26 +9,41 @@ namespace ShopwareX.Services.Concretes
     {
         private readonly IGenderRepository _genderRepository = genderRepository;
 
-        public async Task<Gender> AddAsync(Gender gender)
+        public async Task<Gender> AddGenderAsync(Gender gender)
         {
             await _genderRepository.AddAsync(gender);
             await _genderRepository.SaveAsync();
             return gender;
         }
 
-        public async Task<Gender?> DeleteAsync(long id)
+        public async Task<Gender?> DeleteGenderByIdAsync(long id)
         {
             var existGender = await _genderRepository.GetByIdAsync(id);
-            await _genderRepository.DeleteAsync(id);
-            await _genderRepository.SaveAsync();
+
+            if (existGender is not null)
+            {
+                existGender.IsDeleted = true;
+                existGender.UpdatedAt = DateTime.UtcNow;
+
+                existGender.Users
+                    .ToList()
+                    .ForEach(u =>
+                    {
+                        u.IsDeleted = true;
+                        u.UpdatedAt = DateTime.Now;
+                    });
+
+                await _genderRepository.SaveAsync();
+            }
+
             return existGender;
         }
 
-        public async Task<IEnumerable<Gender>> GetAllAsync() => await _genderRepository.GetAll().ToListAsync();
+        public async Task<IEnumerable<Gender>> GetAllGendersAsync() => await _genderRepository.GetAll().ToListAsync();
 
-        public async Task<Gender?> GetByIdAsync(long id) => await _genderRepository.GetByIdAsync(id);
+        public async Task<Gender?> GetGenderByIdAsync(long id) => await _genderRepository.GetByIdAsync(id);
 
-        public async Task<Gender?> UpdateAsync(long id, Gender gender)
+        public async Task<Gender?> UpdateGenderAsync(long id, Gender gender)
         {
             var existGender = await _genderRepository
                 .GetByIdAsync(id);

@@ -19,7 +19,7 @@ namespace ShopwareX.Controllers
             AddGenderAsync([FromBody] GenderCreateDto dto)
         {
             var gender = _mapper.Map<Gender>(dto);
-            var newGender = await _genderService.AddAsync(gender);
+            var newGender = await _genderService.AddGenderAsync(gender);
             var genderResponseDto = _mapper.Map<GenderResponseDto>(newGender);
 
             var apiResponse = new ApiResponse<GenderResponseDto>
@@ -34,7 +34,7 @@ namespace ShopwareX.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<ApiResponse<List<GenderResponseDto>>>> GetAllGendersAsync()
         {
-            var genders = await _genderService.GetAllAsync();
+            var genders = await _genderService.GetAllGendersAsync();
             var genderResponseDtos = _mapper.Map<List<GenderResponseDto>>(genders);
             
             var apiResponse = new ApiResponse<List<GenderResponseDto>>
@@ -50,7 +50,7 @@ namespace ShopwareX.Controllers
         public async Task<ActionResult<ApiResponse<GenderResponseDto>>>
             GetGenderByIdAsync([FromRoute] long id)
         {
-            var existGender = await _genderService.GetByIdAsync(id);
+            var existGender = await _genderService.GetGenderByIdAsync(id);
             ApiResponse<GenderResponseDto> apiResponse;
 
             if (existGender is null)
@@ -79,7 +79,7 @@ namespace ShopwareX.Controllers
         public async Task<ActionResult<GenderResponseDto>>
             UpdateGenderAsync([FromRoute] long id, [FromBody] GenderUpdateDto dto)
         {
-            var existGender = await _genderService.GetByIdAsync(id);
+            var existGender = await _genderService.GetGenderByIdAsync(id);
             ApiResponse<GenderResponseDto> apiResponse;
 
             if (existGender is null)
@@ -94,7 +94,7 @@ namespace ShopwareX.Controllers
             }
 
             var gender = _mapper.Map<Gender>(dto);
-            var updatedGender = await _genderService.UpdateAsync(id, gender);
+            var updatedGender = await _genderService.UpdateGenderAsync(id, gender);
             var genderResponseDto = _mapper.Map<GenderResponseDto>(updatedGender);
 
             apiResponse = new ApiResponse<GenderResponseDto>
@@ -107,9 +107,9 @@ namespace ShopwareX.Controllers
         }
 
         [HttpDelete("delete/{id:long}")]
-        public async Task<ActionResult<GenderResponseDto>> DeleteGender([FromRoute] long id)
+        public async Task<ActionResult<GenderResponseDto>> DeleteGenderAsync([FromRoute] long id)
         {
-            var existGender = await _genderService.GetByIdAsync(id);
+            var existGender = await _genderService.GetGenderByIdAsync(id);
             ApiResponse<GenderResponseDto> apiResponse;
 
             if (existGender is null)
@@ -123,7 +123,7 @@ namespace ShopwareX.Controllers
                 return NotFound(apiResponse);
             }
 
-            await _genderService.DeleteAsync(id);
+            await _genderService.DeleteGenderByIdAsync(id);
             var genderResponseDto = _mapper.Map<GenderResponseDto>(existGender);
 
             apiResponse = new ApiResponse<GenderResponseDto>

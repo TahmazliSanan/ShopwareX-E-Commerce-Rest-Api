@@ -8,7 +8,7 @@ namespace ShopwareX.Repositories.Abstracts
         Task<TEntity?> GetByIdAsync(long id);
         IQueryable<TEntity> GetAll();
         Task UpdateAsync(TEntity entity);
-        Task DeleteAsync(long id);
+        Task DeleteByIdAsync(long id);
         Task SaveAsync();
     }
 }
