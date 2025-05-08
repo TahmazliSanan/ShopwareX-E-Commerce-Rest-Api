@@ -4,6 +4,6 @@ namespace ShopwareX.Repositories.Abstracts
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        Task<User?> GetUserByEmail(string email);
+        Task<User?> GetUserByEmailAsync(string email);
     }
 }
