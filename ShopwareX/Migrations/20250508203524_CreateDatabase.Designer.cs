@@ -12,7 +12,7 @@ using ShopwareX.DataContext;
 namespace ShopwareX.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250507223930_CreateDatabase")]
+    [Migration("20250508203524_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
