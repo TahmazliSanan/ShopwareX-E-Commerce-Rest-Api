@@ -1,25 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using ShopwareX.Dtos.User;
 using ShopwareX.Entities;
 using ShopwareX.Repositories.Abstracts;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Services.Concretes
 {
-    public class UserService(IUserRepository userRepository) : IUserService
+    public class UserService(IMapper mapper, IUserRepository userRepository) : IUserService
     {
+        private readonly IMapper _mapper = mapper;
         private readonly IUserRepository _userRepository = userRepository;
 
-        public async Task<User> AddUserAsync(User user)
+        public async Task<UserResponseDto> AddUserAsync(UserCreateDto dto)
         {
+            var user = _mapper.Map<User>(dto);
             user.RoleId = 2;
+            user.HashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
             await _userRepository.AddAsync(user);
             await _userRepository.SaveAsync();
-            return user;
+
+            return _mapper.Map<UserResponseDto>(user);
         }
 
-        public async Task<User?> DeleteUserByIdAsync(long id)
+        public async Task<UserResponseDto> DeleteUserByIdAsync(long id)
         {
-            var existUser = await GetUserByIdAsync(id);
+            var existUser = await _userRepository.GetByIdAsync(id);
 
             if (existUser is not null)
             {
@@ -27,33 +34,42 @@ namespace ShopwareX.Services.Concretes
                 await _userRepository.SaveAsync();
             }
 
-            return existUser;
+            return _mapper.Map<UserResponseDto>(existUser);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-            => await _userRepository.GetAll().ToListAsync();
-
-        public async Task<User?> GetUserByEmailAsync(string email)
-            => await _userRepository.GetUserByEmail(email);
-
-        public async Task<User?> GetUserByIdAsync(long id)
-            => await _userRepository.GetByIdAsync(id);
-
-        public async Task<User?> UpdateUserAsync(long id, User user)
+        public async Task<IEnumerable<UserResponseDto>> GetAllUsersAsync()
         {
-            var existUser = await GetUserByIdAsync(id);
+            var users = await _userRepository.GetAll().ToListAsync();
+            return _mapper.Map<IEnumerable<UserResponseDto>>(users);
+        }
+
+        public async Task<UserResponseDto> GetUserByEmailAsync(string email)
+        {
+            var existUserByEmail = await _userRepository.GetUserByEmail(email);
+            return _mapper.Map<UserResponseDto>(existUserByEmail);
+        }
+
+        public async Task<UserResponseDto> GetUserByIdAsync(long id)
+        {
+            var existUser = await _userRepository.GetByIdAsync(id);
+            return _mapper.Map<UserResponseDto>(existUser);
+        }
+
+        public async Task<UserResponseDto> UpdateUserAsync(long id, UserUpdateDto dto)
+        {
+            var existUser = await _userRepository.GetByIdAsync(id);
 
             if (existUser is not null)
             {
-                existUser.FullName = user.FullName;
-                existUser.DateOfBirth = user.DateOfBirth;
-                existUser.GenderId = user.GenderId;
+                existUser.FullName = dto.FullName;
+                existUser.DateOfBirth = dto.DateOfBirth;
+                existUser.GenderId = dto.GenderId;
 
                 await _userRepository.UpdateAsync(existUser);
                 await _userRepository.SaveAsync();
             }
 
-            return existUser;
+            return _mapper.Map<UserResponseDto>(existUser);
         }
     }
 }

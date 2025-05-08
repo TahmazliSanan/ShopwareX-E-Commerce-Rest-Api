@@ -1,14 +1,14 @@
-﻿using ShopwareX.Entities;
+﻿using ShopwareX.Dtos.User;
 
 namespace ShopwareX.Services.Abstracts
 {
     public interface IUserService
     {
-        Task<User> AddUserAsync(User user);
-        Task<User?> GetUserByIdAsync(long id);
-        Task<User?> GetUserByEmailAsync(string email);
-        Task<IEnumerable<User>> GetAllUsersAsync();
-        Task<User?> UpdateUserAsync(long id, User user);
-        Task<User?> DeleteUserByIdAsync(long id);
+        Task<UserResponseDto> AddUserAsync(UserCreateDto dto);
+        Task<UserResponseDto> GetUserByIdAsync(long id);
+        Task<UserResponseDto> GetUserByEmailAsync(string email);
+        Task<IEnumerable<UserResponseDto>> GetAllUsersAsync();
+        Task<UserResponseDto> UpdateUserAsync(long id, UserUpdateDto dto);
+        Task<UserResponseDto> DeleteUserByIdAsync(long id);
     }
 }

@@ -1,17 +1,14 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopwareX.Dtos.GeneralResponse;
 using ShopwareX.Dtos.User;
-using ShopwareX.Entities;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Controllers
 {
     [Route("api/user")]
     [ApiController]
-    public class UserController(IMapper mapper, IUserService userService) : ControllerBase
+    public class UserController(IUserService userService) : ControllerBase
     {
-        private readonly IMapper _mapper = mapper;
         private readonly IUserService _userService = userService;
 
         [HttpPost("add")]
@@ -32,31 +29,27 @@ namespace ShopwareX.Controllers
                 return Conflict(apiResponse);
             }
 
-            var user = _mapper.Map<User>(dto);
-            user.HashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-
-            var newUser = await _userService.AddUserAsync(user);
-            var userResponseDto = _mapper.Map<UserResponseDto>(newUser);
+            var newUser = await _userService.AddUserAsync(dto);
 
             apiResponse = new ApiResponse<UserResponseDto>
             {
                 Message = "User was created successfully",
-                Response = userResponseDto
+                Response = newUser
             };
 
-            return Created($"api/role/{userResponseDto.Id}", apiResponse);
+            return Created($"api/role/{newUser.Id}", apiResponse);
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<ApiResponse<UserResponseDto>>> GetAllUsersAsync()
+        public async Task<ActionResult<ApiResponse<IEnumerable<UserResponseDto>>>>
+            GetAllUsersAsync()
         {
             var users = await _userService.GetAllUsersAsync();
-            var userResponseDtos = _mapper.Map<List<UserResponseDto>>(users);
 
-            var apiResponse = new ApiResponse<List<UserResponseDto>>
+            var apiResponse = new ApiResponse<IEnumerable<UserResponseDto>>
             {
                 Message = "All users were fetched successfully",
-                Response = userResponseDtos
+                Response = users
             };
 
             return Ok(apiResponse);
@@ -80,12 +73,10 @@ namespace ShopwareX.Controllers
                 return NotFound(apiResponse);
             }
 
-            var userResponseDto = _mapper.Map<UserResponseDto>(existUser);
-
             apiResponse = new ApiResponse<UserResponseDto>
             {
                 Message = "User was fetched successfully",
-                Response = userResponseDto
+                Response = existUser
             };
 
             return Ok(apiResponse);
@@ -109,14 +100,12 @@ namespace ShopwareX.Controllers
                 return NotFound(apiResponse);
             }
 
-            var user = _mapper.Map<User>(dto);
-            var updatedUser = await _userService.UpdateUserAsync(id, user);
-            var userResponseDto = _mapper.Map<UserResponseDto>(updatedUser);
+            var updatedUser = await _userService.UpdateUserAsync(id, dto);
 
             apiResponse = new ApiResponse<UserResponseDto>
             {
                 Message = "User was updated successfully",
-                Response = userResponseDto
+                Response = updatedUser
             };
 
             return Ok(apiResponse);
@@ -140,12 +129,11 @@ namespace ShopwareX.Controllers
             }
 
             await _userService.DeleteUserByIdAsync(id);
-            var userResponseDto = _mapper.Map<UserResponseDto>(existUser);
 
             apiResponse = new ApiResponse<UserResponseDto>
             {
                 Message = "User was deleted successfully",
-                Response = userResponseDto
+                Response = existUser
             };
 
             return Ok(apiResponse);
