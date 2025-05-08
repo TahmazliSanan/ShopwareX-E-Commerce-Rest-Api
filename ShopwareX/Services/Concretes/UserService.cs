@@ -45,7 +45,7 @@ namespace ShopwareX.Services.Concretes
 
         public async Task<UserResponseDto> GetUserByEmailAsync(string email)
         {
-            var existUserByEmail = await _userRepository.GetUserByEmail(email);
+            var existUserByEmail = await _userRepository.GetUserByEmailAsync(email);
             return _mapper.Map<UserResponseDto>(existUserByEmail);
         }
 
