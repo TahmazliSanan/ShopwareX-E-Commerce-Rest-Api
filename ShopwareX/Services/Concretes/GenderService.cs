@@ -1,26 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using ShopwareX.Dtos.Gender;
 using ShopwareX.Entities;
 using ShopwareX.Repositories.Abstracts;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Services.Concretes
 {
-    public class GenderService(IGenderRepository genderRepository, IUserRepository userRepository) 
-        : IGenderService
+    public class GenderService(IMapper mapper, IGenderRepository genderRepository) : IGenderService
     {
+        private readonly IMapper _mapper = mapper;
         private readonly IGenderRepository _genderRepository = genderRepository;
-        private readonly IUserRepository _userRepository = userRepository;
 
-        public async Task<Gender> AddGenderAsync(Gender gender)
+        public async Task<GenderResponseDto> AddGenderAsync(GenderCreateDto dto)
         {
+            var gender = _mapper.Map<Gender>(dto);
             await _genderRepository.AddAsync(gender);
             await _genderRepository.SaveAsync();
-            return gender;
+            return _mapper.Map<GenderResponseDto>(gender);
         }
 
-        public async Task<Gender?> DeleteGenderByIdAsync(long id)
+        public async Task<GenderResponseDto> DeleteGenderByIdAsync(long id)
         {
-            var existGender = await GetGenderWithUsersAsync(id);
+            var existGender = await _genderRepository.GetGenderWithUsersAsync(id);
 
             if (existGender is not null)
             {
@@ -35,43 +37,55 @@ namespace ShopwareX.Services.Concretes
                         u.UpdatedAt = DateTime.Now;
                     });
 
-                await _userRepository.SaveAsync();
                 await _genderRepository.SaveAsync();
             }
 
-            return existGender;
+            return _mapper.Map<GenderResponseDto>(existGender);
         }
 
-        public async Task<IEnumerable<Gender>> GetAllGendersAsync()
-            => await _genderRepository.GetAll().ToListAsync();
-
-        public async Task<Gender?> GetGenderByIdAsync(long id)
-            => await _genderRepository.GetByIdAsync(id);
-
-        public async Task<Gender?> GetGenderByNameAsync(string name, long? id = null)
+        public async Task<IEnumerable<GenderResponseDto>> GetAllGendersAsync()
         {
+            var genders = await _genderRepository.GetAll().ToListAsync();
+            return _mapper.Map<IEnumerable<GenderResponseDto>>(genders);
+        }
+
+        public async Task<GenderResponseDto> GetGenderByIdAsync(long id)
+        {
+            var existGender = await _genderRepository.GetByIdAsync(id);
+            return _mapper.Map<GenderResponseDto>(existGender);
+        }
+
+        public async Task<GenderResponseDto> GetGenderByNameAsync(string name, long? id = null)
+        {
+            Gender? existGenderByName;
+
             if (id is not null)
-                return await _genderRepository.GetGenderByNameAsync(name, id);
+                existGenderByName = await _genderRepository.GetGenderByNameAsync(name, id);
+            else
+                existGenderByName = await _genderRepository.GetGenderByNameAsync(name);
 
-            return await _genderRepository.GetGenderByNameAsync(name);
+            return _mapper.Map<GenderResponseDto>(existGenderByName);
         }
 
-        public async Task<Gender?> GetGenderWithUsersAsync(long id)
-            => await _genderRepository.GetGenderWithUsersAsync(id);
-
-        public async Task<Gender?> UpdateGenderAsync(long id, Gender gender)
+        public async Task<GenderResponseDto> GetGenderWithUsersAsync(long id)
         {
-            var existGender = await GetGenderByIdAsync(id);
+            var gender = await _genderRepository.GetGenderWithUsersAsync(id);
+            return _mapper.Map<GenderResponseDto>(gender);
+        }
+
+        public async Task<GenderResponseDto> UpdateGenderAsync(long id, GenderUpdateDto dto)
+        {
+            var existGender = await _genderRepository.GetByIdAsync(id);
 
             if (existGender is not null)
             {
-                existGender.Name = gender.Name;
+                existGender.Name = dto.Name;
 
                 await _genderRepository.UpdateAsync(existGender);
                 await _genderRepository.SaveAsync();
             }
 
-            return existGender;
+            return _mapper.Map<GenderResponseDto>(existGender);
         }
     }
 }

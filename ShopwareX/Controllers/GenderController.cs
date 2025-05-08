@@ -1,17 +1,14 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopwareX.Dtos.Gender;
 using ShopwareX.Dtos.GeneralResponse;
-using ShopwareX.Entities;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Controllers
 {
     [Route("api/gender")]
     [ApiController]
-    public class GenderController(IMapper mapper, IGenderService genderService) : ControllerBase
+    public class GenderController(IGenderService genderService) : ControllerBase
     {
-        private readonly IMapper _mapper = mapper;
         private readonly IGenderService _genderService = genderService;
 
         [HttpPost("add")]
@@ -32,31 +29,29 @@ namespace ShopwareX.Controllers
                 return Conflict(apiResponse);
             }
 
-            var gender = _mapper.Map<Gender>(dto);
-            var newGender = await _genderService.AddGenderAsync(gender);
-            var genderResponseDto = _mapper.Map<GenderResponseDto>(newGender);
+            var newGender = await _genderService.AddGenderAsync(dto);
 
             apiResponse = new ApiResponse<GenderResponseDto>
             {
                 Message = "Gender was created successfully",
-                Response = genderResponseDto
+                Response = newGender
             };
 
-            return Created($"api/gender/{genderResponseDto.Id}", apiResponse);
+            return Created($"api/gender/{newGender.Id}", apiResponse);
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<ApiResponse<List<GenderResponseDto>>>> GetAllGendersAsync()
+        public async Task<ActionResult<ApiResponse<IEnumerable<GenderResponseDto>>>>
+            GetAllGendersAsync()
         {
             var genders = await _genderService.GetAllGendersAsync();
-            var genderResponseDtos = _mapper.Map<List<GenderResponseDto>>(genders);
-            
-            var apiResponse = new ApiResponse<List<GenderResponseDto>>
+
+            var apiResponse = new ApiResponse<IEnumerable<GenderResponseDto>>
             {
                 Message = "All genders were fetched successfully",
-                Response = genderResponseDtos
+                Response = genders
             };
-            
+
             return Ok(apiResponse);
         }
 
@@ -74,16 +69,14 @@ namespace ShopwareX.Controllers
                     Message = "Gender not found",
                     Response = null
                 };
-                
+
                 return NotFound(apiResponse);
             }
-
-            var genderResponseDto = _mapper.Map<GenderResponseDto>(existGender);
 
             apiResponse = new ApiResponse<GenderResponseDto>
             {
                 Message = "Gender was fetched successfully",
-                Response = genderResponseDto
+                Response = existGender
             };
 
             return Ok(apiResponse);
@@ -120,14 +113,12 @@ namespace ShopwareX.Controllers
                 return Conflict(apiResponse);
             }
 
-            var gender = _mapper.Map<Gender>(dto);
-            var updatedGender = await _genderService.UpdateGenderAsync(id, gender);
-            var genderResponseDto = _mapper.Map<GenderResponseDto>(updatedGender);
+            var updatedGender = await _genderService.UpdateGenderAsync(id, dto);
 
             apiResponse = new ApiResponse<GenderResponseDto>
             {
                 Message = "Gender was updated successfully",
-                Response = genderResponseDto
+                Response = updatedGender
             };
 
             return Ok(apiResponse);
@@ -151,12 +142,11 @@ namespace ShopwareX.Controllers
             }
 
             await _genderService.DeleteGenderByIdAsync(id);
-            var genderResponseDto = _mapper.Map<GenderResponseDto>(existGender);
 
             apiResponse = new ApiResponse<GenderResponseDto>
             {
                 Message = "Gender was deleted successfully",
-                Response = genderResponseDto
+                Response = existGender
             };
 
             return Ok(apiResponse);

@@ -1,15 +1,15 @@
-﻿using ShopwareX.Entities;
+﻿using ShopwareX.Dtos.Gender;
 
 namespace ShopwareX.Services.Abstracts
 {
     public interface IGenderService
     {
-        Task<Gender> AddGenderAsync(Gender gender);
-        Task<Gender?> GetGenderByIdAsync(long id);
-        Task<Gender?> GetGenderByNameAsync(string name, long? id = null);
-        Task<Gender?> GetGenderWithUsersAsync(long id);
-        Task<IEnumerable<Gender>> GetAllGendersAsync();
-        Task<Gender?> UpdateGenderAsync(long id, Gender gender);
-        Task<Gender?> DeleteGenderByIdAsync(long id);
+        Task<GenderResponseDto> AddGenderAsync(GenderCreateDto dto);
+        Task<GenderResponseDto> GetGenderByIdAsync(long id);
+        Task<GenderResponseDto> GetGenderByNameAsync(string name, long? id = null);
+        Task<GenderResponseDto> GetGenderWithUsersAsync(long id);
+        Task<IEnumerable<GenderResponseDto>> GetAllGendersAsync();
+        Task<GenderResponseDto> UpdateGenderAsync(long id, GenderUpdateDto dto);
+        Task<GenderResponseDto> DeleteGenderByIdAsync(long id);
     }
 }
