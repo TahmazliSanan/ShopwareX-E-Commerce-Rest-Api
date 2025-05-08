@@ -1,15 +1,15 @@
-﻿using ShopwareX.Entities;
+﻿using ShopwareX.Dtos.Role;
 
 namespace ShopwareX.Services.Abstracts
 {
     public interface IRoleService
     {
-        Task<Role> AddRoleAsync(Role role);
-        Task<Role?> GetRoleByIdAsync(long id);
-        Task<Role?> GetRoleByNameAsync(string name, long? id = null);
-        Task<Role?> GetRoleWithUsersAsync(long id);
-        Task<IEnumerable<Role>> GetAllRolesAsync();
-        Task<Role?> UpdateRoleAsync(long id, Role role);
-        Task<Role?> DeleteRoleByIdAsync(long id);
+        Task<RoleResponseDto> AddRoleAsync(RoleCreateDto dto);
+        Task<RoleResponseDto> GetRoleByIdAsync(long id);
+        Task<RoleResponseDto> GetRoleByNameAsync(string name, long? id = null);
+        Task<RoleResponseDto> GetRoleWithUsersAsync(long id);
+        Task<IEnumerable<RoleResponseDto>> GetAllRolesAsync();
+        Task<RoleResponseDto> UpdateRoleAsync(long id, RoleUpdateDto dto);
+        Task<RoleResponseDto> DeleteRoleByIdAsync(long id);
     }
 }

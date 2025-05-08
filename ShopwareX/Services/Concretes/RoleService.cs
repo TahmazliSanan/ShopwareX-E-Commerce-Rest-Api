@@ -1,26 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using ShopwareX.Dtos.Role;
 using ShopwareX.Entities;
 using ShopwareX.Repositories.Abstracts;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Services.Concretes
 {
-    public class RoleService(IRoleRepository roleRepository, IUserRepository userRepository) 
-        : IRoleService
+    public class RoleService(IMapper mapper, IRoleRepository roleRepository) : IRoleService
     {
+        private readonly IMapper _mapper = mapper;
         private readonly IRoleRepository _roleRepository = roleRepository;
-        private readonly IUserRepository _userRepository = userRepository;
 
-        public async Task<Role> AddRoleAsync(Role role)
+        public async Task<RoleResponseDto> AddRoleAsync(RoleCreateDto dto)
         {
+            var role = _mapper.Map<Role>(dto);
             await _roleRepository.AddAsync(role);
             await _roleRepository.SaveAsync();
-            return role;
+            return _mapper.Map<RoleResponseDto>(role);
         }
 
-        public async Task<Role?> DeleteRoleByIdAsync(long id)
+        public async Task<RoleResponseDto> DeleteRoleByIdAsync(long id)
         {
-            var existRole = await GetRoleWithUsersAsync(id);
+            var existRole = await _roleRepository.GetRoleWithUsersAsync(id);
 
             if (existRole is not null)
             {
@@ -35,43 +37,55 @@ namespace ShopwareX.Services.Concretes
                         u.UpdatedAt = DateTime.Now;
                     });
 
-                await _userRepository.SaveAsync();
                 await _roleRepository.SaveAsync();
             }
 
-            return existRole;
+            return _mapper.Map<RoleResponseDto>(existRole);
         }
 
-        public async Task<IEnumerable<Role>> GetAllRolesAsync()
-            => await _roleRepository.GetAll().ToListAsync();
-
-        public async Task<Role?> GetRoleByIdAsync(long id)
-            => await _roleRepository.GetByIdAsync(id);
-
-        public async Task<Role?> GetRoleByNameAsync(string name, long? id = null)
+        public async Task<IEnumerable<RoleResponseDto>> GetAllRolesAsync()
         {
+            var roles = await _roleRepository.GetAll().ToListAsync();
+            return _mapper.Map<IEnumerable<RoleResponseDto>>(roles);
+        }
+
+        public async Task<RoleResponseDto> GetRoleByIdAsync(long id)
+        {
+            var existRole = await _roleRepository.GetByIdAsync(id);
+            return _mapper.Map<RoleResponseDto>(existRole);
+        }
+
+        public async Task<RoleResponseDto> GetRoleByNameAsync(string name, long? id = null)
+        {
+            Role? existRoleByName;
+
             if (id is not null)
-                return await _roleRepository.GetRoleByNameAsync(name, id);
-
-            return await _roleRepository.GetRoleByNameAsync(name);
+                existRoleByName = await _roleRepository.GetRoleByNameAsync(name, id);
+            else
+                existRoleByName = await _roleRepository.GetRoleByNameAsync(name);
+            
+            return _mapper.Map<RoleResponseDto>(existRoleByName);
         }
 
-        public async Task<Role?> GetRoleWithUsersAsync(long id)
-            => await _roleRepository.GetRoleWithUsersAsync(id);
-
-        public async Task<Role?> UpdateRoleAsync(long id, Role role)
+        public async Task<RoleResponseDto> GetRoleWithUsersAsync(long id)
         {
-            var existRole = await GetRoleByIdAsync(id);
+            var role = await _roleRepository.GetRoleWithUsersAsync(id);
+            return _mapper.Map<RoleResponseDto>(role);
+        }
+
+        public async Task<RoleResponseDto> UpdateRoleAsync(long id, RoleUpdateDto dto)
+        {
+            var existRole = await _roleRepository.GetByIdAsync(id);
 
             if (existRole is not null)
             {
-                existRole.Name = role.Name;
+                existRole.Name = dto.Name;
 
                 await _roleRepository.UpdateAsync(existRole);
                 await _roleRepository.SaveAsync();
             }
 
-            return existRole;
+            return _mapper.Map<RoleResponseDto>(existRole);
         }
     }
 }

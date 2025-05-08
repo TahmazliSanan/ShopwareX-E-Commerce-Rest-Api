@@ -1,17 +1,14 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopwareX.Dtos.GeneralResponse;
 using ShopwareX.Dtos.Role;
-using ShopwareX.Entities;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Controllers
 {
     [Route("api/role")]
     [ApiController]
-    public class RoleController(IMapper mapper, IRoleService roleService) : ControllerBase
+    public class RoleController(IRoleService roleService) : ControllerBase
     {
-        private readonly IMapper _mapper = mapper;
         private readonly IRoleService _roleService = roleService;
 
         [HttpPost("add")]
@@ -32,29 +29,27 @@ namespace ShopwareX.Controllers
                 return Conflict(apiResponse);
             }
 
-            var role = _mapper.Map<Role>(dto);
-            var newRole = await _roleService.AddRoleAsync(role);
-            var roleResponseDto = _mapper.Map<RoleResponseDto>(newRole);
+            var newRole = await _roleService.AddRoleAsync(dto);
 
             apiResponse = new ApiResponse<RoleResponseDto>
             {
                 Message = "Role was created successfully",
-                Response = roleResponseDto
+                Response = newRole
             };
 
-            return Created($"api/role/{roleResponseDto.Id}", apiResponse);
+            return Created($"api/role/{newRole.Id}", apiResponse);
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<ApiResponse<List<RoleResponseDto>>>> GetAllRolesAsync()
+        public async Task<ActionResult<ApiResponse<IEnumerable<RoleResponseDto>>>>
+            GetAllRolesAsync()
         {
             var roles = await _roleService.GetAllRolesAsync();
-            var roleResponseDtos = _mapper.Map<List<RoleResponseDto>>(roles);
 
-            var apiResponse = new ApiResponse<List<RoleResponseDto>>
+            var apiResponse = new ApiResponse<IEnumerable<RoleResponseDto>>
             {
                 Message = "All roles were fetched successfully",
-                Response = roleResponseDtos
+                Response = roles
             };
 
             return Ok(apiResponse);
@@ -78,12 +73,10 @@ namespace ShopwareX.Controllers
                 return NotFound(apiResponse);
             }
 
-            var roleResponseDto = _mapper.Map<RoleResponseDto>(existRole);
-
             apiResponse = new ApiResponse<RoleResponseDto>
             {
                 Message = "Role was fetched successfully",
-                Response = roleResponseDto
+                Response = existRole
             };
 
             return Ok(apiResponse);
@@ -120,14 +113,12 @@ namespace ShopwareX.Controllers
                 return Conflict(apiResponse);
             }
 
-            var role = _mapper.Map<Role>(dto);
-            var updatedRole = await _roleService.UpdateRoleAsync(id, role);
-            var roleResponseDto = _mapper.Map<RoleResponseDto>(updatedRole);
+            var updatedRole = await _roleService.UpdateRoleAsync(id, dto);
 
             apiResponse = new ApiResponse<RoleResponseDto>
             {
                 Message = "Role was updated successfully",
-                Response = roleResponseDto
+                Response = updatedRole
             };
 
             return Ok(apiResponse);
@@ -151,12 +142,11 @@ namespace ShopwareX.Controllers
             }
 
             await _roleService.DeleteRoleByIdAsync(id);
-            var roleResponseDto = _mapper.Map<RoleResponseDto>(existRole);
 
             apiResponse = new ApiResponse<RoleResponseDto>
             {
                 Message = "Role was deleted successfully",
-                Response = roleResponseDto
+                Response = existRole
             };
 
             return Ok(apiResponse);
