@@ -24,9 +24,13 @@ namespace ShopwareX.Services.Concretes
 
                     return new LoginResponseDto
                     {
-                        Jwt = jwt,
+                        Id = existUserByEmail.Id,
+                        FullName = existUserByEmail.FullName,
                         Email = existUserByEmail.Email,
-                        RoleId = existUserByEmail.Role?.Id ?? 0
+                        DateOfBirth = existUserByEmail.DateOfBirth,
+                        RoleId = existUserByEmail.RoleId,
+                        GenderId = existUserByEmail.GenderId,
+                        Jwt = jwt
                     };
                 }
             }
