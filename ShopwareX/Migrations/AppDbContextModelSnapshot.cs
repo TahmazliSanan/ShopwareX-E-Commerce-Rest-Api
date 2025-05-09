@@ -54,6 +54,22 @@ namespace ShopwareX.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("genders", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Male"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Female"
+                        });
                 });
 
             modelBuilder.Entity("ShopwareX.Entities.Role", b =>
@@ -88,6 +104,29 @@ namespace ShopwareX.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Super Admin"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("ShopwareX.Entities.User", b =>
@@ -150,6 +189,30 @@ namespace ShopwareX.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "super.admin@example.com",
+                            FullName = "Super Admin",
+                            GenderId = 1L,
+                            HashedPassword = "$2a$11$p80/K1/Gr/.v7N5FzKNoSuubOBvDd9YyGTh3cJ.T7P36oylNEkHxm",
+                            IsDeleted = false,
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@example.com",
+                            FullName = "Admin",
+                            GenderId = 1L,
+                            HashedPassword = "$2a$11$QXgwppWXLFw3CFYoaj1jcetl/s.yUVgEUElYS2kahmWvoHpUCoaA.",
+                            IsDeleted = false,
+                            RoleId = 2L
+                        });
                 });
 
             modelBuilder.Entity("ShopwareX.Entities.User", b =>
