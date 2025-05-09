@@ -85,7 +85,8 @@ namespace ShopwareX.EntityConfigs
                     Email = "super.admin@example.com",
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("super@admin123"),
                     GenderId = 1,
-                    RoleId = 1
+                    RoleId = 1,
+                    CreatedAt = DateTime.Now
                 },
                 new User
                 {
@@ -95,6 +96,7 @@ namespace ShopwareX.EntityConfigs
                     HashedPassword = BCrypt.Net.BCrypt.HashPassword("admin123"),
                     GenderId = 1,
                     RoleId = 2,
+                    CreatedAt = DateTime.Now
                 });
 
             builder.ToTable("users");

@@ -39,9 +39,24 @@ namespace ShopwareX.EntityConfigs
                 .IsRequired();
 
             builder.HasData(
-                new Role { Id = 1, Name = "Super Admin" },
-                new Role { Id = 2, Name = "Admin" },
-                new Role { Id = 3, Name = "User" });
+                new Role
+                {
+                    Id = 1,
+                    Name = "Super Admin",
+                    CreatedAt = DateTime.Now
+                },
+                new Role
+                {
+                    Id = 2,
+                    Name = "Admin",
+                    CreatedAt = DateTime.Now
+                },
+                new Role
+                {
+                    Id = 3,
+                    Name = "User",
+                    CreatedAt = DateTime.Now
+                });
 
             builder.ToTable("roles");
         }

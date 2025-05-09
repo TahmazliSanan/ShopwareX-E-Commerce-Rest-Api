@@ -39,8 +39,18 @@ namespace ShopwareX.EntityConfigs
                 .IsRequired();
 
             builder.HasData(
-                new Gender { Id = 1, Name = "Male" },
-                new Gender { Id = 2, Name = "Female" });
+                new Gender
+                {
+                    Id = 1,
+                    Name = "Male",
+                    CreatedAt = DateTime.Now
+                },
+                new Gender
+                {
+                    Id = 2,
+                    Name = "Female",
+                    CreatedAt = DateTime.Now
+                });
 
             builder.ToTable("genders");
         }
