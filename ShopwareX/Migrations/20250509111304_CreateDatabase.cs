@@ -94,8 +94,8 @@ namespace ShopwareX.Migrations
                 columns: new[] { "id", "created_at", "name", "updated_at" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Male", null },
-                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Female", null }
+                    { 1L, new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(763), "Male", null },
+                    { 2L, new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(783), "Female", null }
                 });
 
             migrationBuilder.InsertData(
@@ -103,9 +103,9 @@ namespace ShopwareX.Migrations
                 columns: new[] { "id", "created_at", "name", "updated_at" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Super Admin", null },
-                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", null },
-                    { 3L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "User", null }
+                    { 1L, new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(8005), "Super Admin", null },
+                    { 2L, new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(8015), "Admin", null },
+                    { 3L, new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(8017), "User", null }
                 });
 
             migrationBuilder.InsertData(
@@ -113,8 +113,8 @@ namespace ShopwareX.Migrations
                 columns: new[] { "id", "created_at", "date_of_birth", "email", "full_name", "gender_id", "hashed_password", "role_id", "updated_at" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "super.admin@example.com", "Super Admin", 1L, "$2a$11$p80/K1/Gr/.v7N5FzKNoSuubOBvDd9YyGTh3cJ.T7P36oylNEkHxm", 1L, null },
-                    { 2L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@example.com", "Admin", 1L, "$2a$11$QXgwppWXLFw3CFYoaj1jcetl/s.yUVgEUElYS2kahmWvoHpUCoaA.", 2L, null }
+                    { 1L, new DateTime(2025, 5, 9, 15, 13, 3, 199, DateTimeKind.Local).AddTicks(1210), null, "super.admin@example.com", "Super Admin", 1L, "$2a$11$BLgnjqwirV.7woRYI9grg.0QF/bTteHZUFtO8Yjg2FAUTbnKdC.Ii", 1L, null },
+                    { 2L, new DateTime(2025, 5, 9, 15, 13, 3, 358, DateTimeKind.Local).AddTicks(6390), null, "admin@example.com", "Admin", 1L, "$2a$11$r5WulxO4lyU1kajrs30/PObaZPZOn9Vz7EVVhusdWdn2tNbN/20ly", 2L, null }
                 });
 
             migrationBuilder.CreateIndex(

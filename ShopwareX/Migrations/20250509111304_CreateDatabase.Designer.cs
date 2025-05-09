@@ -12,7 +12,7 @@ using ShopwareX.DataContext;
 namespace ShopwareX.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250509110523_CreateDatabase")]
+    [Migration("20250509111304_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -62,14 +62,14 @@ namespace ShopwareX.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(763),
                             IsDeleted = false,
                             Name = "Male"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(783),
                             IsDeleted = false,
                             Name = "Female"
                         });
@@ -112,21 +112,21 @@ namespace ShopwareX.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(8005),
                             IsDeleted = false,
                             Name = "Super Admin"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(8015),
                             IsDeleted = false,
                             Name = "Admin"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 5, 9, 15, 13, 3, 34, DateTimeKind.Local).AddTicks(8017),
                             IsDeleted = false,
                             Name = "User"
                         });
@@ -197,22 +197,22 @@ namespace ShopwareX.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 5, 9, 15, 13, 3, 199, DateTimeKind.Local).AddTicks(1210),
                             Email = "super.admin@example.com",
                             FullName = "Super Admin",
                             GenderId = 1L,
-                            HashedPassword = "$2a$11$p80/K1/Gr/.v7N5FzKNoSuubOBvDd9YyGTh3cJ.T7P36oylNEkHxm",
+                            HashedPassword = "$2a$11$BLgnjqwirV.7woRYI9grg.0QF/bTteHZUFtO8Yjg2FAUTbnKdC.Ii",
                             IsDeleted = false,
                             RoleId = 1L
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 5, 9, 15, 13, 3, 358, DateTimeKind.Local).AddTicks(6390),
                             Email = "admin@example.com",
                             FullName = "Admin",
                             GenderId = 1L,
-                            HashedPassword = "$2a$11$QXgwppWXLFw3CFYoaj1jcetl/s.yUVgEUElYS2kahmWvoHpUCoaA.",
+                            HashedPassword = "$2a$11$r5WulxO4lyU1kajrs30/PObaZPZOn9Vz7EVVhusdWdn2tNbN/20ly",
                             IsDeleted = false,
                             RoleId = 2L
                         });
