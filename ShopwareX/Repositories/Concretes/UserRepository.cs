@@ -11,7 +11,10 @@ namespace ShopwareX.Repositories.Concretes
         private readonly DbSet<User> _users = context.Set<User>();
 
         public async Task<User?> GetUserByEmailAsync(string email)
-            => await _users.FirstOrDefaultAsync(u => u.Email.Trim().ToLower()
+            => await _users
+            .Include(u => u.Role)
+            .Include(u => u.Gender)
+            .FirstOrDefaultAsync(u => u.Email.Trim().ToLower()
             .Equals(email.Trim().ToLower()) && u.IsDeleted == false);
     }
 }

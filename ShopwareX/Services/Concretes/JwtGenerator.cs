@@ -24,8 +24,8 @@ namespace ShopwareX.Services.Concretes
                 new("FullName", user.FullName),
                 new(ClaimTypes.Email, user.Email),
                 new(ClaimTypes.DateOfBirth, user.DateOfBirth?.ToString() ?? ""),
-                new(ClaimTypes.Gender, user.Gender?.Name ?? ""),
-                new(ClaimTypes.Role, user.Role?.Name ?? "User")
+                new(ClaimTypes.Gender, user.Gender.Name),
+                new(ClaimTypes.Role, user.Role.Name)
             };
 
             var jwt = new JwtSecurityToken(
