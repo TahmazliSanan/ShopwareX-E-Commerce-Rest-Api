@@ -15,7 +15,7 @@ namespace ShopwareX.Services.Concretes
         public async Task<UserResponseDto> AddUserAsync(UserCreateDto dto)
         {
             var user = _mapper.Map<User>(dto);
-            user.RoleId = 2;
+            user.RoleId = 3;
             user.HashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
             await _userRepository.AddAsync(user);
