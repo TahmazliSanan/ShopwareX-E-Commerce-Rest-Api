@@ -38,6 +38,11 @@ namespace ShopwareX.EntityConfigs
                 .HasMaxLength(170)
                 .IsRequired();
 
+            builder.HasData(
+                new Role { Id = 1, Name = "Super Admin" },
+                new Role { Id = 2, Name = "Admin" },
+                new Role { Id = 3, Name = "User" });
+
             builder.ToTable("roles");
         }
     }

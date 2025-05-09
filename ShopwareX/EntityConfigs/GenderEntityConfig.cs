@@ -38,6 +38,10 @@ namespace ShopwareX.EntityConfigs
                 .HasMaxLength(170)
                 .IsRequired();
 
+            builder.HasData(
+                new Gender { Id = 1, Name = "Male" },
+                new Gender { Id = 2, Name = "Female" });
+
             builder.ToTable("genders");
         }
     }

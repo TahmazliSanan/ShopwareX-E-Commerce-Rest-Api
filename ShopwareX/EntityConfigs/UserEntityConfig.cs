@@ -77,6 +77,26 @@ namespace ShopwareX.EntityConfigs
                 .WithMany(g => g.Users)
                 .HasForeignKey(u => u.RoleId);
 
+            builder.HasData(
+                new User
+                {
+                    Id = 1,
+                    FullName = "Super Admin",
+                    Email = "super.admin@example.com",
+                    HashedPassword = BCrypt.Net.BCrypt.HashPassword("super@admin123"),
+                    GenderId = 1,
+                    RoleId = 1
+                },
+                new User
+                {
+                    Id = 2,
+                    FullName = "Admin",
+                    Email = "admin@example.com",
+                    HashedPassword = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                    GenderId = 1,
+                    RoleId = 2,
+                });
+
             builder.ToTable("users");
         }
     }
