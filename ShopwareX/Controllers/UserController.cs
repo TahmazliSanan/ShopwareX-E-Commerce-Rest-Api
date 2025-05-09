@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopwareX.Dtos.GeneralResponse;
 using ShopwareX.Dtos.User;
 using ShopwareX.Services.Abstracts;
@@ -40,6 +41,7 @@ namespace ShopwareX.Controllers
             return Created($"api/role/{newUser.Id}", apiResponse);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("all")]
         public async Task<ActionResult<ApiResponse<IEnumerable<UserResponseDto>>>>
             GetAllUsersAsync()
@@ -55,6 +57,7 @@ namespace ShopwareX.Controllers
             return Ok(apiResponse);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("get/{id:long}")]
         public async Task<ActionResult<ApiResponse<UserResponseDto>>>
             GetUserByIdAsync([FromRoute] long id)
@@ -82,6 +85,7 @@ namespace ShopwareX.Controllers
             return Ok(apiResponse);
         }
 
+        [Authorize(Roles = "User")]
         [HttpPut("update/{id:long}")]
         public async Task<ActionResult<UserResponseDto>>
             UpdateUserAsync([FromRoute] long id, [FromBody] UserUpdateDto dto)
@@ -111,6 +115,7 @@ namespace ShopwareX.Controllers
             return Ok(apiResponse);
         }
 
+        [Authorize(Roles = "User")]
         [HttpDelete("delete/{id:long}")]
         public async Task<ActionResult<UserResponseDto>> DeleteUserAsync([FromRoute] long id)
         {

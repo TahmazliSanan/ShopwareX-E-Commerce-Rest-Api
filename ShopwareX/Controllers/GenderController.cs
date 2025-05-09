@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopwareX.Dtos.Gender;
 using ShopwareX.Dtos.GeneralResponse;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Controllers
 {
+    [Authorize(Roles = "Super Admin, Admin")]
     [Route("api/gender")]
     [ApiController]
     public class GenderController(IGenderService genderService) : ControllerBase

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopwareX.Dtos.GeneralResponse;
 using ShopwareX.Dtos.Role;
 using ShopwareX.Services.Abstracts;
 
 namespace ShopwareX.Controllers
 {
+    [Authorize(Roles = "Super Admin")]
     [Route("api/role")]
     [ApiController]
     public class RoleController(IRoleService roleService) : ControllerBase
