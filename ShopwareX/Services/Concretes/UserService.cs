@@ -51,7 +51,7 @@ namespace ShopwareX.Services.Concretes
 
         public async Task<UserResponseDto> GetUserByIdAsync(long id)
         {
-            var existUser = await _userRepository.GetByIdAsync(id);
+            var existUser = await _userRepository.GetUserByIdAsync(id);
             return _mapper.Map<UserResponseDto>(existUser);
         }
 

@@ -16,5 +16,11 @@ namespace ShopwareX.Repositories.Concretes
             .Include(u => u.Gender)
             .FirstOrDefaultAsync(u => u.Email.Trim().ToLower()
             .Equals(email.Trim().ToLower()) && u.IsDeleted == false);
+
+        public async Task<User?> GetUserByIdAsync(long id)
+            => await _users
+            .Include(u => u.Gender)
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Id == id && u.IsDeleted == false);
     }
 }
