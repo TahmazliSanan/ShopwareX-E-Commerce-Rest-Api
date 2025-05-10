@@ -20,7 +20,9 @@ namespace ShopwareX.Mapper
 
             CreateMap<UserCreateDto, User>();
             CreateMap<UserUpdateDto, User>();
-            CreateMap<User, UserResponseDto>();
+            CreateMap<User, UserResponseDto>()
+                .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => src.Gender.Name))
+                .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.Name));
         }
     }
 }
