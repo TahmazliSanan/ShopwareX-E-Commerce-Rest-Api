@@ -13,11 +13,13 @@ namespace ShopwareX.Mapper
         {
             CreateMap<GenderCreateDto, Gender>();
             CreateMap<GenderUpdateDto, Gender>();
-            CreateMap<Gender, GenderResponseDto>();
+            CreateMap<Gender, GenderResponseDto>()
+                .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.Users)); ;
 
             CreateMap<RoleCreateDto, Role>();
             CreateMap<RoleUpdateDto, Role>();
-            CreateMap<Role, RoleResponseDto>();
+            CreateMap<Role, RoleResponseDto>()
+                .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.Users));
 
             CreateMap<UserCreateDto, User>();
             CreateMap<UserUpdateDto, User>();
