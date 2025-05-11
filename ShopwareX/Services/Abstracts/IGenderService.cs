@@ -7,7 +7,6 @@ namespace ShopwareX.Services.Abstracts
         Task<GenderResponseDto> AddGenderAsync(GenderCreateDto dto);
         Task<GenderResponseDto> GetGenderByIdAsync(long id);
         Task<GenderResponseDto> GetGenderByNameAsync(string name, long? id = null);
-        Task<GenderResponseDto> GetGenderWithUsersAsync(long id);
         Task<IEnumerable<GenderResponseDto>> GetAllGendersAsync();
         Task<GenderResponseDto> UpdateGenderAsync(long id, GenderUpdateDto dto);
         Task<GenderResponseDto> DeleteGenderByIdAsync(long id);

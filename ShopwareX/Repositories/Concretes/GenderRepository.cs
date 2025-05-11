@@ -10,6 +10,16 @@ namespace ShopwareX.Repositories.Concretes
     {
         private readonly DbSet<Gender> _genders = context.Set<Gender>();
 
+        public IQueryable<Gender> GetAllGenders()
+            => _genders
+            .Include(r => r.Users)
+            .AsQueryable();
+
+        public async Task<Gender?> GetGenderByIdAsync(long id)
+            => await _genders
+                .Include(g => g.Users)
+                .FirstOrDefaultAsync(g => g.Id == id && g.IsDeleted == false);
+
         public async Task<Gender?> GetGenderByNameAsync(string name, long? id = null)
         {
             if (id is not null)
@@ -21,10 +31,5 @@ namespace ShopwareX.Repositories.Concretes
                 .FirstOrDefaultAsync(g => g.Name.Trim().ToLower()
                 .Equals(name.Trim().ToLower()) && g.IsDeleted == false);
         }
-
-        public async Task<Gender?> GetGenderWithUsersAsync(long id)
-            => await _genders
-            .Include(g => g.Users)
-            .FirstOrDefaultAsync(g => g.Id == id && g.IsDeleted == false);
     }
 }

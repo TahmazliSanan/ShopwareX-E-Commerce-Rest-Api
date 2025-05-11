@@ -22,7 +22,7 @@ namespace ShopwareX.Services.Concretes
 
         public async Task<RoleResponseDto> DeleteRoleByIdAsync(long id)
         {
-            var existRole = await _roleRepository.GetRoleWithUsersAsync(id);
+            var existRole = await _roleRepository.GetRoleByIdAsync(id);
 
             if (existRole is not null)
             {
@@ -45,13 +45,13 @@ namespace ShopwareX.Services.Concretes
 
         public async Task<IEnumerable<RoleResponseDto>> GetAllRolesAsync()
         {
-            var roles = await _roleRepository.GetAll().ToListAsync();
+            var roles = await _roleRepository.GetAllRoles().ToListAsync();
             return _mapper.Map<IEnumerable<RoleResponseDto>>(roles);
         }
 
         public async Task<RoleResponseDto> GetRoleByIdAsync(long id)
         {
-            var existRole = await _roleRepository.GetByIdAsync(id);
+            var existRole = await _roleRepository.GetRoleByIdAsync(id);
             return _mapper.Map<RoleResponseDto>(existRole);
         }
 
@@ -65,12 +65,6 @@ namespace ShopwareX.Services.Concretes
                 existRoleByName = await _roleRepository.GetRoleByNameAsync(name);
             
             return _mapper.Map<RoleResponseDto>(existRoleByName);
-        }
-
-        public async Task<RoleResponseDto> GetRoleWithUsersAsync(long id)
-        {
-            var role = await _roleRepository.GetRoleWithUsersAsync(id);
-            return _mapper.Map<RoleResponseDto>(role);
         }
 
         public async Task<RoleResponseDto> UpdateRoleAsync(long id, RoleUpdateDto dto)

@@ -7,7 +7,6 @@ namespace ShopwareX.Services.Abstracts
         Task<RoleResponseDto> AddRoleAsync(RoleCreateDto dto);
         Task<RoleResponseDto> GetRoleByIdAsync(long id);
         Task<RoleResponseDto> GetRoleByNameAsync(string name, long? id = null);
-        Task<RoleResponseDto> GetRoleWithUsersAsync(long id);
         Task<IEnumerable<RoleResponseDto>> GetAllRolesAsync();
         Task<RoleResponseDto> UpdateRoleAsync(long id, RoleUpdateDto dto);
         Task<RoleResponseDto> DeleteRoleByIdAsync(long id);

@@ -22,7 +22,7 @@ namespace ShopwareX.Services.Concretes
 
         public async Task<GenderResponseDto> DeleteGenderByIdAsync(long id)
         {
-            var existGender = await _genderRepository.GetGenderWithUsersAsync(id);
+            var existGender = await _genderRepository.GetGenderByIdAsync(id);
 
             if (existGender is not null)
             {
@@ -45,13 +45,13 @@ namespace ShopwareX.Services.Concretes
 
         public async Task<IEnumerable<GenderResponseDto>> GetAllGendersAsync()
         {
-            var genders = await _genderRepository.GetAll().ToListAsync();
+            var genders = await _genderRepository.GetAllGenders().ToListAsync();
             return _mapper.Map<IEnumerable<GenderResponseDto>>(genders);
         }
 
         public async Task<GenderResponseDto> GetGenderByIdAsync(long id)
         {
-            var existGender = await _genderRepository.GetByIdAsync(id);
+            var existGender = await _genderRepository.GetGenderByIdAsync(id);
             return _mapper.Map<GenderResponseDto>(existGender);
         }
 
@@ -65,12 +65,6 @@ namespace ShopwareX.Services.Concretes
                 existGenderByName = await _genderRepository.GetGenderByNameAsync(name);
 
             return _mapper.Map<GenderResponseDto>(existGenderByName);
-        }
-
-        public async Task<GenderResponseDto> GetGenderWithUsersAsync(long id)
-        {
-            var gender = await _genderRepository.GetGenderWithUsersAsync(id);
-            return _mapper.Map<GenderResponseDto>(gender);
         }
 
         public async Task<GenderResponseDto> UpdateGenderAsync(long id, GenderUpdateDto dto)
