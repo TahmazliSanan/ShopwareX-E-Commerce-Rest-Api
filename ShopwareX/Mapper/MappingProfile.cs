@@ -29,7 +29,8 @@ namespace ShopwareX.Mapper
 
             CreateMap<CategoryCreateDto, Category>();
             CreateMap<CategoryUpdateDto, Category>();
-            CreateMap<Category, CategoryResponseDto>();
+            CreateMap<Category, CategoryResponseDto>()
+                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
         }
     }
 }
