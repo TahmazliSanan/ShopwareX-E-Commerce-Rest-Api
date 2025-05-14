@@ -1,4 +1,6 @@
-﻿namespace ShopwareX.Dtos.Category
+﻿using ShopwareX.Dtos.Product;
+
+namespace ShopwareX.Dtos.Category
 {
     public class CategoryResponseDto
     {
@@ -7,5 +9,6 @@
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public IEnumerable<ProductResponseDto> Products { get; set; } = [];
     }
 }
