@@ -8,15 +8,19 @@ namespace ShopwareX.Controllers
 {
     [Route("api/user")]
     [ApiController]
-    public class UserController(IUserService userService) : ControllerBase
+    public class UserController(IUserService userService, IGenderService genderService)
+        : ControllerBase
     {
         private readonly IUserService _userService = userService;
+        private readonly IGenderService _genderService = genderService;
 
         [HttpPost("add")]
         public async Task<ActionResult<ApiResponse<UserResponseDto>>>
             AddUserAsync([FromBody] UserCreateDto dto)
         {
             var existUserByEmail = await _userService.GetUserByEmailAsync(dto.Email);
+            var existGender = await _genderService.GetGenderByIdAsync(dto.GenderId);
+
             ApiResponse<UserResponseDto> apiResponse;
 
             if (existUserByEmail is not null)
@@ -28,6 +32,17 @@ namespace ShopwareX.Controllers
                 };
 
                 return Conflict(apiResponse);
+            }
+
+            if (existGender is null)
+            {
+                apiResponse = new ApiResponse<UserResponseDto>
+                {
+                    Message = "Gender doesn't exist",
+                    Response = null
+                };
+
+                return NotFound(apiResponse);
             }
 
             var newUser = await _userService.AddUserAsync(dto);
@@ -91,6 +106,8 @@ namespace ShopwareX.Controllers
             UpdateUserAsync([FromRoute] long id, [FromBody] UserUpdateDto dto)
         {
             var existUser = await _userService.GetUserByIdAsync(id);
+            var existGender = await _genderService.GetGenderByIdAsync(dto.GenderId);
+
             ApiResponse<UserResponseDto> apiResponse;
 
             if (existUser is null)
@@ -98,6 +115,17 @@ namespace ShopwareX.Controllers
                 apiResponse = new ApiResponse<UserResponseDto>
                 {
                     Message = "User not found",
+                    Response = null
+                };
+
+                return NotFound(apiResponse);
+            }
+
+            if (existGender is null)
+            {
+                apiResponse = new ApiResponse<UserResponseDto>
+                {
+                    Message = "Gender doesn't exist",
                     Response = null
                 };
 
