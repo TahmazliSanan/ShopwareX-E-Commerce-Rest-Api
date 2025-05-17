@@ -37,7 +37,7 @@ namespace ShopwareX.Controllers
 
             apiResponse = new ApiResponse<ProductResponseDto>
             {
-                Message = "User was created successfully",
+                Message = "Product was created successfully",
                 Response = newProduct
             };
 
