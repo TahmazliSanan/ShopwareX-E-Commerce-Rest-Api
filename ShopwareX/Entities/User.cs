@@ -10,5 +10,6 @@
         public Gender Gender { get; set; } = null!;
         public long RoleId { get; set; }
         public Role Role { get; set; } = null!;
+        public ICollection<Order> Orders { get; set; } = [];
     }
 }
