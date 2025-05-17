@@ -15,6 +15,7 @@ namespace ShopwareX.Services.Concretes
         public async Task<OrderResponseDto> AddOrderAsync(OrderCreateDto dto)
         {
             var order = _mapper.Map<Order>(dto);
+            order.TotalPrice = order.Items.Sum(i => i.Quantity * i.Product.Price);
             await _orderRepository.AddAsync(order);
             await _orderRepository.SaveAsync();
             return _mapper.Map<OrderResponseDto>(order);
