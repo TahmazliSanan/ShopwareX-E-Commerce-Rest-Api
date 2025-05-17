@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ShopwareX.Dtos.Category;
 using ShopwareX.Dtos.Gender;
+using ShopwareX.Dtos.Order;
+using ShopwareX.Dtos.OrderItem;
 using ShopwareX.Dtos.Product;
 using ShopwareX.Dtos.Role;
 using ShopwareX.Dtos.User;
@@ -37,6 +39,14 @@ namespace ShopwareX.Mapper
             CreateMap<ProductUpdateDto, Product>();
             CreateMap<Product, ProductResponseDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+
+            CreateMap<OrderItemCreateDto, OrderItem>();
+            CreateMap<OrderItem, OrderItemResponseDto>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
+
+            CreateMap<OrderCreateDto, Order>();
+            CreateMap<Order, OrderResponseDto>()
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
         }
     }
 }
