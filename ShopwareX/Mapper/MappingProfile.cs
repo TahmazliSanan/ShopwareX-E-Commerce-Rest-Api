@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ShopwareX.Dtos.Category;
 using ShopwareX.Dtos.Gender;
+using ShopwareX.Dtos.Product;
 using ShopwareX.Dtos.Role;
 using ShopwareX.Dtos.User;
 using ShopwareX.Entities;
@@ -31,6 +32,11 @@ namespace ShopwareX.Mapper
             CreateMap<CategoryUpdateDto, Category>();
             CreateMap<Category, CategoryResponseDto>()
                 .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
+
+            CreateMap<ProductCreateDto, Product>();
+            CreateMap<ProductUpdateDto, Product>();
+            CreateMap<Product, ProductResponseDto>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
         }
     }
 }
