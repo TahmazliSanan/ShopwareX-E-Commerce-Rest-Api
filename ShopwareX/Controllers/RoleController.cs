@@ -39,7 +39,7 @@ namespace ShopwareX.Controllers
                 Response = newRole
             };
 
-            return Created($"api/role/{newRole.Id}", apiResponse);
+            return Created($"api/role/get/{newRole.Id}", apiResponse);
         }
 
         [HttpGet("all")]

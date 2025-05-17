@@ -39,7 +39,7 @@ namespace ShopwareX.Controllers
                 Response = newGender
             };
 
-            return Created($"api/gender/{newGender.Id}", apiResponse);
+            return Created($"api/gender/get/{newGender.Id}", apiResponse);
         }
 
         [HttpGet("all")]

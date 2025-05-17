@@ -40,7 +40,7 @@ namespace ShopwareX.Controllers
                 Response = newCategory
             };
 
-            return Created($"api/category/{newCategory.Id}", apiResponse);
+            return Created($"api/category/get/{newCategory.Id}", apiResponse);
         }
 
         [HttpGet("all")]

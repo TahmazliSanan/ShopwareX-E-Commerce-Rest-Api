@@ -53,7 +53,7 @@ namespace ShopwareX.Controllers
                 Response = newUser
             };
 
-            return Created($"api/user/{newUser.Id}", apiResponse);
+            return Created($"api/user/get/{newUser.Id}", apiResponse);
         }
 
         [Authorize(Roles = "Admin")]
