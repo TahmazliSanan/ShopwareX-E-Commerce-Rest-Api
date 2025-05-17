@@ -4,6 +4,7 @@ namespace ShopwareX.Dtos.Order
 {
     public class OrderResponseDto
     {
+        public long Id { get; set; }
         public decimal TotalPrice { get; set; }
         public long UserId { get; set; }
         public DateTime CreatedAt { get; set; }
