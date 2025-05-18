@@ -14,5 +14,10 @@ namespace ShopwareX.Repositories.Concretes
             => await _products
             .Include(u => u.Category)
             .FirstOrDefaultAsync(u => u.Id == id && u.IsDeleted == false);
+
+        public IQueryable<Product> GetProductsByIds(IEnumerable<long> ids)
+            => _products
+                .Where(p => ids.Contains(p.Id))
+                .AsQueryable();
     }
 }
