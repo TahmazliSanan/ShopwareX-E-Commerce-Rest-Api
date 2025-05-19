@@ -43,7 +43,9 @@ namespace ShopwareX.Services.Concretes
             {
                 UserId = userId,
                 Items = items,
-                TotalPrice = items.Sum(i => i.UnitPrice * i.Quantity)
+                TotalPrice = items.Sum(i => i.UnitPrice * i.Quantity),
+                OrderDate = DateTime.Now,
+                CreatedAt = DateTime.Now
             };
 
             await _orderRepository.AddAsync(order);
