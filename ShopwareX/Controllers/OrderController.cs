@@ -22,7 +22,7 @@ namespace ShopwareX.Controllers
             ApiResponse<OrderResponseDto> apiResponse;
 
             var user = User.FindFirst("Id");
-            
+
             if (user is null)
             {
                 apiResponse = new ApiResponse<OrderResponseDto>
@@ -34,24 +34,19 @@ namespace ShopwareX.Controllers
                 return NotFound(apiResponse);
             }
 
-            foreach (var item in dto.Items)
-            {
-                var existProduct = _productService.GetProductByIdAsync(item.ProductId);
-
-                if (existProduct is null)
-                {
-                    apiResponse = new ApiResponse<OrderResponseDto>
-                    {
-                        Message = "Product doesn't exist",
-                        Response = null
-                    };
-
-                    return NotFound(apiResponse);
-                }
-            }
-
             var userId = long.Parse(user.Value);
             var newOrder = await _orderService.AddOrderAsync(dto, userId);
+
+            if (newOrder is null)
+            {
+                apiResponse = new ApiResponse<OrderResponseDto>
+                {
+                    Message = "One or more products do not exist",
+                    Response = null
+                };
+
+                return NotFound(apiResponse);
+            }
 
             apiResponse = new ApiResponse<OrderResponseDto>
             {
